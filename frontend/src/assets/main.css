@@ -1,0 +1,41 @@
+@import "./base.css";
+
+#app {
+	max-width: 90vw;
+	margin: 0 auto;
+	padding: 2rem;
+	font-weight: normal;
+}
+
+a,
+.blue {
+	text-decoration: none;
+	color: rgb(31, 166, 234);
+	transition: 0.4s;
+	padding: 3px;
+}
+
+@media (min-width: 1200px) {
+	body {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+		margin: 0;
+	}
+
+	#app {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 1fr auto;
+		grid-gap: 1rem;
+		padding: 0 2rem;
+		flex-grow: 1;
+		min-height: 0;
+	}
+
+	footer {
+		grid-column: 1 / -1;
+		grid-row: 2;
+		margin-top: 2rem;
+	}
+}
