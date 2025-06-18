@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import Card from "primevue/card";
+import Tag from "primevue/tag";
+import Button from "primevue/button";
 import ProgressSpinner from "primevue/progressspinner";
 import Divider from "primevue/divider";
 import { useTaskStore } from "@/stores/task";
 import { task, type Task } from "@/services/api";
+import { getRelativeTime } from "@/services/date";
 
 const taskStore = useTaskStore();
 
@@ -63,34 +66,45 @@ const removeTask = async (taskId: string) => {
 					:key="t._id"
 					class="task-card"
 				>
-					<template #title>{{ t.title }}</template>
+					<template #title>
+						<h3 class="truncate-text">{{ t.title }}</h3>
+					</template>
 					<template #content>
-						<p v-if="t.description">{{ t.description }}</p>
-						<small v-if="status.value === 'todo'">
-							Créée : {{ new Date(t.createdAt ?? "").toLocaleString() }}
-						</small>
-						<small v-else>
-							Modifiée : {{ new Date(t.updatedAt ?? "").toLocaleString() }}
-						</small>
 						<div class="task-actions">
 							<Button
 								@click="updateTaskStatus(t._id, 'done')"
 								v-if="t.status !== 'done'"
 								icon="pi pi-check"
 								severity="success"
+								v-tooltip="'Enter your username'"
 								variant="text"
 								rounded
 								aria-label="Done"
 							/>
-							<Button
-								@click="removeTask(t._id)"
-								icon="pi pi-trash"
-								severity="danger"
-								variant="text"
-								rounded
-								aria-label="Delete"
-							/>
 						</div>
+						<p v-if="t.description" class="truncate-text">
+							{{ t.description }}
+						</p>
+					</template>
+					<template #footer>
+						<Tag
+							severity="info"
+							v-if="t.createdAt === t.updatedAt"
+							:value="'Créée ' + getRelativeTime(t.updatedAt ?? '')"
+						></Tag>
+						<Tag
+							severity="info"
+							v-else
+							:value="'Modifiée ' + getRelativeTime(t.updatedAt ?? '')"
+						></Tag>
+						<Button
+							@click="removeTask(t._id)"
+							icon="pi pi-trash"
+							severity="danger"
+							variant="text"
+							rounded
+							aria-label="Delete"
+						/>
 					</template>
 				</Card>
 			</div>
@@ -100,7 +114,7 @@ const removeTask = async (taskId: string) => {
 
 <style scoped>
 .task-board {
-	padding: 1rem;
+	padding: 1rem 0;
 	height: 100%;
 	min-height: 30rem;
 	margin-left: auto;
@@ -119,6 +133,15 @@ const removeTask = async (taskId: string) => {
 	justify-content: center;
 	height: 200px;
 	width: 100%;
+}
+
+.truncate-text {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: normal;
+	word-break: break-word;
 }
 
 .error-box {
@@ -148,7 +171,7 @@ const removeTask = async (taskId: string) => {
 	gap: 1rem;
 	background-color: #131313;
 	min-height: 30vh;
-	padding: 2rem;
+	padding: 2rem 0;
 	border-radius: 0.5rem;
 	justify-content: center;
 	align-items: center;

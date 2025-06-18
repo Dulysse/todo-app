@@ -1,19 +1,19 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import { createPinia, setActivePinia } from "pinia";
-import Header from "../Header.vue";
+import Footer from "../Footer.vue";
 
-describe("Header", () => {
+describe("Footer", () => {
 	it("renders properly", () => {
 		setActivePinia(createPinia());
 
-		const wrapper = mount(Header, {
+		const wrapper = mount(Footer, {
 			global: {
 				plugins: [createPinia()],
 			},
-			props: { title: "Hello Vitest", description: "test" },
+			props: { author: "Ulysse Dupont", linkedIn: "" },
 		});
 
-		expect(wrapper.text()).toContain("Hello Vitest");
+		expect(wrapper.text()).toContain("Ulysse Dupont");
 	});
 });

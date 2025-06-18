@@ -2,18 +2,13 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 
-import type { CreateTaskDto } from "./dto/create-task.dto";
-import type { UpdateTaskDto } from "./dto/update-task.dto";
+import type { ICreateTaskDto } from "./dto/create-task.dto";
+import type { IUpdateTaskDto } from "./dto/update-task.dto";
 import type { ITask } from "./task.schema";
 
 @Injectable()
 export class TasksService {
 	constructor(@InjectModel("Task") private readonly taskModel: Model<ITask>) {}
-
-	async create(createTaskDto: CreateTaskDto) {
-		const task = new this.taskModel(createTaskDto);
-		return task.save();
-	}
 
 	async findAll() {
 		return this.taskModel.find().exec();
@@ -25,7 +20,12 @@ export class TasksService {
 		return task;
 	}
 
-	async update(id: string, updateTaskDto: UpdateTaskDto) {
+	async create(createTaskDto: ICreateTaskDto) {
+		const task = new this.taskModel(createTaskDto);
+		return task.save();
+	}
+
+	async update(id: string, updateTaskDto: IUpdateTaskDto) {
 		const task = await this.taskModel
 			.findByIdAndUpdate(id, updateTaskDto, {
 				new: true,

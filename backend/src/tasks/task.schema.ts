@@ -2,6 +2,15 @@ import { createModel } from "@/utils/mongoose";
 import type { InferSchemaType } from "mongoose";
 import { Schema } from "mongoose";
 
+/**
+ * All possible status
+ */
+export const status = <const>{
+	TODO: "todo",
+	IN_PROGRESS: "in-progress",
+	DONE: "done",
+};
+
 export const taskSchema = new Schema(
 	{
 		/**
@@ -24,7 +33,7 @@ export const taskSchema = new Schema(
 		status: {
 			type: String,
 			required: true,
-			enum: ["todo", "in-progress", "done"],
+			enum: Object.values(status),
 		},
 	},
 	{

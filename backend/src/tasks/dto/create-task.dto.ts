@@ -1,3 +1,4 @@
+import { status } from "@/tasks/task.schema";
 import { z } from "zod";
 
 export const CreateTaskSchema = z.object({
@@ -12,7 +13,7 @@ export const CreateTaskSchema = z.object({
 	/**
 	 * @required The status of the task
 	 */
-	status: z.enum(["todo", "in-progress", "done"]),
+	status: z.nativeEnum(status),
 });
 
-export type CreateTaskDto = z.infer<typeof CreateTaskSchema>;
+export type ICreateTaskDto = z.infer<typeof CreateTaskSchema>;

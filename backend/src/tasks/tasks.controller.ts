@@ -9,22 +9,12 @@ import {
 	BadRequestException,
 } from "@nestjs/common";
 import { TasksService } from "./tasks.service";
-import { CreateTaskSchema } from "./dto/create-task.dto";
-import { UpdateTaskSchema } from "./dto/update-task.dto";
+import { ICreateTaskDto, CreateTaskSchema } from "./dto/create-task.dto";
+import { IUpdateTaskDto, UpdateTaskSchema } from "./dto/update-task.dto";
 
 @Controller("tasks")
 export class TasksController {
 	constructor(private readonly tasksService: TasksService) {}
-
-	@Post()
-	create(@Body() body: unknown) {
-		try {
-			const createTaskDto = CreateTaskSchema.parse(body);
-			return this.tasksService.create(createTaskDto);
-		} catch (e) {
-			throw new BadRequestException(e.errors ?? e.message);
-		}
-	}
 
 	@Get()
 	findAll() {
@@ -36,8 +26,18 @@ export class TasksController {
 		return this.tasksService.findOne(id);
 	}
 
+	@Post()
+	create(@Body() body: ICreateTaskDto) {
+		try {
+			const createTaskDto = CreateTaskSchema.parse(body);
+			return this.tasksService.create(createTaskDto);
+		} catch (e) {
+			throw new BadRequestException(e.errors ?? e.message);
+		}
+	}
+
 	@Patch(":id")
-	update(@Param("id") id: string, @Body() body: unknown) {
+	update(@Param("id") id: string, @Body() body: IUpdateTaskDto) {
 		try {
 			const updateTaskDto = UpdateTaskSchema.parse(body);
 			return this.tasksService.update(id, updateTaskDto);

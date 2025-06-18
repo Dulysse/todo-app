@@ -25,10 +25,7 @@ if (!envVariablesOutput.success) {
 			`Incorrect environment variable: "${issue.path.at(0)}", code: "${issue.code}", message: "${issue.message}"`,
 		);
 } else {
-	process.env = {
-		...envVariablesOutput.data,
-		NODE_ENV: process.env.NODE_ENV,
-	};
+	process.env = envVariablesOutput.data;
 }
 
 declare global {

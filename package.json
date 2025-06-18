@@ -1,7 +1,6 @@
 {
   "name": "todo-app",
   "version": "1.0.0",
-  "packageManager": "pnpm@9.12.3",
   "description": "Test technique : Développer une application web de gestion de tâches (to-do list)",
   "homepage": "https://github.com/Dulysse/todo-app#readme",
   "bugs": {
@@ -14,14 +13,14 @@
   "license": "ISC",
   "author": "Ulysse Dupont <ulyssedupont2707@gmail.com>",
   "scripts": {
-    "dev": "pnpm -r dev",
-    "start:docker": "docker-compose up -d",
+    "start:docker": "docker-compose build --no-cache && docker-compose up -d",
     "stop:docker": "docker-compose down",
-    "dev:all": "pnpm start:docker && pnpm -r dev",
+    "dev": "pnpm start:docker && pnpm -r dev",
     "prepare": "husky",
     "format": "pnpm -r run format",
     "build": "pnpm -r run build",
-    "lint": "pnpm -r run lint"
+    "lint": "pnpm -r run lint",
+    "test": "pnpm -r run test && pnpm -r run test:e2e"
   },
   "keywords": [
     "vue",

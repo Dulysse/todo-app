@@ -18,14 +18,14 @@ const loading = useLoadingStore();
 const taskStore = useTaskStore();
 const isDialogOpen = ref(false);
 
-const form = ref(task.initialTaskForm);
+const form = ref({ ...task.initialTaskForm });
 
 const createTask = async () => {
 	try {
 		loading.start();
 		await taskStore.addTask(form.value);
 		isDialogOpen.value = false;
-		form.value = task.initialTaskForm;
+		form.value = { ...task.initialTaskForm };
 	} catch (_) {
 	} finally {
 		loading.stop();

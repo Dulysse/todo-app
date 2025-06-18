@@ -25,6 +25,34 @@ import Footer from "./components/Footer.vue";
 header {
 	line-height: 1.5;
 	margin-top: 2rem;
+	animation: SLIDE_LEFT_FADE_IN 1.5s ease-out forwards;
+}
+
+main,
+Footer {
+	animation: FADE_IN 1s ease-in forwards;
+	animation-delay: 1.5s;
+	opacity: 0;
+	margin-top: 2rem;
+}
+
+@keyframes FADE_IN {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+@keyframes SLIDE_LEFT_FADE_IN {
+	from {
+		transform: translateX(-200px);
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
 }
 
 @media (min-width: 1200px) {
@@ -32,6 +60,9 @@ header {
 		display: flex;
 		place-items: center;
 		padding-right: calc(var(--section-gap) / 2);
+		margin-top: 0;
+	}
+	main {
 		margin-top: 0;
 	}
 }

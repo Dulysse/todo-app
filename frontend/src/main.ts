@@ -7,11 +7,11 @@ import PrimeVue from "primevue/config";
 import Aura from "@primeuix/themes/aura";
 import { createPinia } from "pinia";
 
-import Button from "primevue/button";
+import Tooltip from "primevue/tooltip";
 
 const app = createApp(App);
 
-app.component("Button", Button);
+app.directive("tooltip", Tooltip);
 
 app.use(PrimeVue, {
 	theme: {
