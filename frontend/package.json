@@ -3,10 +3,15 @@
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
+	"description": "The frontend for the todo app",
+	"author": {
+		"name": "Ulysse Dupont",
+		"email": "ulyssedupont2707@gmail.com"
+	},
 	"scripts": {
 		"dev": "vite",
 		"build": "run-p type-check \"build-only {@}\" --",
-		"preview": "vite preview",
+		"start": "vite preview",
 		"test": "vitest",
 		"build-only": "vite build",
 		"type-check": "vue-tsc --build",
@@ -16,6 +21,7 @@
 		"format": "prettier --write src/"
 	},
 	"dependencies": {
+		"@faker-js/faker": "^9.8.0",
 		"@primeuix/themes": "^1.1.2",
 		"axios": "^1.10.0",
 		"pinia": "^3.0.3",

@@ -19,6 +19,7 @@ import Footer from "./components/Footer.vue";
 		author="Ulysse Dupont"
 		linked-in="https://www.linkedin.com/in/ulysse-dupont/"
 	/>
+	<Toast position="bottom-right" />
 </template>
 
 <style scoped>
@@ -28,10 +29,15 @@ header {
 	animation: SLIDE_LEFT_FADE_IN 1.5s ease-out forwards;
 }
 
+main {
+	width: 100%;
+	height: 100%;
+}
+
 main,
 Footer {
 	animation: FADE_IN 1s ease-in forwards;
-	animation-delay: 1.5s;
+	animation-delay: 1s;
 	opacity: 0;
 	margin-top: 2rem;
 }
@@ -55,7 +61,7 @@ Footer {
 	}
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1580px) {
 	header {
 		display: flex;
 		place-items: center;

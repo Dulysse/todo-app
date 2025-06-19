@@ -1,34 +1,29 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useLoadingStore } from "@/stores/loading";
 import { useTaskStore } from "@/stores/task";
-import InputText from "primevue/inputtext";
-import Textarea from "primevue/textarea";
-import Dropdown from "primevue/dropdown";
+import TaskForm from "@/components/forms/TaskForm.vue";
 import Button from "primevue/button";
 import Dialog from "primevue/dialog";
-import { task } from "@/services/api";
+import type { CreateTaskForm } from "@/services/api";
+import { useToaster } from "@/services/toast";
+
+const toast = useToaster();
 
 defineProps<{
 	title: string;
 	description: string;
 }>();
 
-const loading = useLoadingStore();
 const taskStore = useTaskStore();
 const isDialogOpen = ref(false);
 
-const form = ref({ ...task.initialTaskForm });
-
-const createTask = async () => {
-	try {
-		loading.start();
-		await taskStore.addTask(form.value);
+const createTask = async (data: CreateTaskForm) => {
+	await taskStore.addTask(data);
+	if (taskStore.error) {
+		toast.error(taskStore.error);
+	} else {
 		isDialogOpen.value = false;
-		form.value = { ...task.initialTaskForm };
-	} catch (_) {
-	} finally {
-		loading.stop();
+		toast.success("Tâche créée avec succès.");
 	}
 };
 </script>
@@ -43,7 +38,7 @@ const createTask = async () => {
 				<h3>{{ description }}</h3>
 				<Button
 					icon="pi pi-plus"
-					:disabled="loading.isLoading"
+					:disabled="taskStore.isLoading"
 					label="Ajouter une tâche"
 					severity="secondary"
 					variant="outlined"
@@ -58,61 +53,14 @@ const createTask = async () => {
 		modal
 		header="Créer une nouvelle tâche"
 		style="width: 30rem"
-		:closable="!loading.isLoading"
+		:closable="!taskStore.isLoading"
 	>
-		<div class="form-field">
-			<label for="title">Titre</label>
-			<InputText
-				id="title"
-				v-model="form.title"
-				class="w-full"
-				placeholder="Entrez un titre de tâche"
-			/>
-		</div>
-
-		<div class="form-field">
-			<label for="description">
-				Description <span class="optional">(facultatif)</span>
-			</label>
-			<Textarea
-				id="description"
-				v-model="form.description"
-				rows="3"
-				class="w-full"
-				placeholder="Entrez une description pour cette tâche"
-			/>
-		</div>
-
-		<div class="form-field">
-			<label for="status">Statut</label>
-			<Dropdown
-				id="status"
-				v-model="form.status"
-				:options="task.statuses"
-				option-label="label"
-				option-value="value"
-				placeholder="Sélectionnez un statut"
-				class="w-full"
-			/>
-		</div>
-
-		<template #footer>
-			<Button
-				label="Annuler"
-				icon="pi pi-times"
-				severity="warn"
-				text
-				@click="isDialogOpen = false"
-				:disabled="loading.isLoading"
-			/>
-			<Button
-				label="Créer"
-				icon="pi pi-check"
-				text
-				@click="createTask"
-				:loading="loading.isLoading"
-			/>
-		</template>
+		<TaskForm
+			:mode="'create'"
+			:loading="taskStore.isLoading"
+			@submit="createTask"
+			@cancel="isDialogOpen = false"
+		/>
 	</Dialog>
 </template>
 
@@ -157,7 +105,7 @@ Button {
 	margin-left: 0.3rem;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1580px) {
 	.greetings h1,
 	.greetings h3 {
 		text-align: left;

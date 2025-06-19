@@ -1,6 +1,12 @@
 import { defineStore } from "pinia";
-import { task as taskApi, type Task } from "@/services/api";
+import { taskService, type CreateTaskForm, type Task } from "@/services/api";
 import { AxiosError } from "axios";
+
+const NETWORK_ERROR = "Erreur de communication avec l'API.";
+const UNKNOWN_ERROR = "Une erreur inconnue est survenue.";
+const CREATE_TASK_ERROR = "Impossible de créer la tâche.";
+const UPDATE_TASK_ERROR = "Impossible de mettre à jour la tâche.";
+const DELETE_TASK_ERROR = "Impossible de supprimer la tâche.";
 
 export const useTaskStore = defineStore("task", {
 	state: () => ({
@@ -14,32 +20,30 @@ export const useTaskStore = defineStore("task", {
 			this.isLoading = true;
 			this.error = null;
 			try {
-				const res = await taskApi.getAll();
+				const res = await taskService.getAll();
 				this.tasks = res.data;
 			} catch (err) {
 				if (err instanceof AxiosError) {
-					this.error =
-						err.response?.data ?? "Erreur de communication avec l'API.";
+					this.error = err.response?.data ?? NETWORK_ERROR;
 				} else {
-					this.error = "Une erreur inconnue est survenue.";
+					this.error = UNKNOWN_ERROR;
 				}
 			} finally {
 				this.isLoading = false;
 			}
 		},
 
-		async addTask(newTask: Omit<Task, "_id" | "createdAt" | "updatedAt">) {
+		async addTask(newTask: CreateTaskForm) {
 			this.isLoading = true;
 			this.error = null;
 			try {
-				const res = await taskApi.create(newTask);
+				const res = await taskService.create(newTask);
 				this.tasks.push(res.data);
 			} catch (err) {
 				if (err instanceof AxiosError) {
-					this.error =
-						err.response?.data ?? "Erreur de communication avec l'API.";
+					this.error = err.response?.data ?? NETWORK_ERROR;
 				} else {
-					this.error = "Impossible de créer la tâche.";
+					this.error = CREATE_TASK_ERROR;
 				}
 			} finally {
 				this.isLoading = false;
@@ -50,15 +54,14 @@ export const useTaskStore = defineStore("task", {
 			this.isLoading = true;
 			this.error = null;
 			try {
-				const res = await taskApi.update(id, data);
+				const res = await taskService.update(id, data);
 				const index = this.tasks.findIndex(t => t._id === id);
 				if (index !== -1) this.tasks[index] = res.data;
 			} catch (err) {
 				if (err instanceof AxiosError) {
-					this.error =
-						err.response?.data ?? "Erreur de communication avec l'API.";
+					this.error = err.response?.data ?? NETWORK_ERROR;
 				} else {
-					this.error = "Impossible de mettre à jour la tâche.";
+					this.error = UPDATE_TASK_ERROR;
 				}
 			} finally {
 				this.isLoading = false;
@@ -69,14 +72,13 @@ export const useTaskStore = defineStore("task", {
 			this.isLoading = true;
 			this.error = null;
 			try {
-				await taskApi.delete(id);
+				await taskService.delete(id);
 				this.tasks = this.tasks.filter(t => t._id !== id);
 			} catch (err) {
 				if (err instanceof AxiosError) {
-					this.error =
-						err.response?.data ?? "Erreur de communication avec l'API.";
+					this.error = err.response?.data ?? NETWORK_ERROR;
 				} else {
-					this.error = "Impossible de supprimer la tâche.";
+					this.error = DELETE_TASK_ERROR;
 				}
 			} finally {
 				this.isLoading = false;

@@ -11,7 +11,10 @@
     "url": "git+https://github.com/Dulysse/todo-app.git"
   },
   "license": "ISC",
-  "author": "Ulysse Dupont <ulyssedupont2707@gmail.com>",
+  "author": {
+		"name": "Ulysse Dupont",
+		"email": "ulyssedupont2707@gmail.com"
+	},
   "scripts": {
     "start:docker": "docker-compose build --no-cache && docker-compose up -d",
     "stop:docker": "docker-compose down",
@@ -19,6 +22,7 @@
     "prepare": "husky",
     "format": "pnpm -r run format",
     "build": "pnpm -r run build",
+    "start": "pnpm start:docker && pnpm -r run start",
     "lint": "pnpm -r run lint",
     "test": "pnpm -r run test && pnpm -r run test:e2e"
   },

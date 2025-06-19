@@ -47,7 +47,7 @@ To run or test only the backend:
 ```bash
 cd backend
 
-pnpm install
+pnpm i
 pnpm start:dev         # Development server
 pnpm test              # Unit tests
 pnpm test:e2e          # e2e tests
@@ -72,7 +72,7 @@ To run or test only the frontend:
 ```bash
 cd frontend
 
-pnpm install
+pnpm i
 pnpm dev         # Development server
 pnpm test              # Vitest unit test
 pnpm build             # Compile for production
@@ -91,19 +91,23 @@ VITE_API_URL=http://localhost:3000
 
 ## 📦 Installation (Monorepo)
 
+From the monorepo root:
+
 ### 1. Install dependencies
 
 ```bash
-pnpm install
+pnpm i
 ````
 
 ### 2. Set up environment variables
 
-### 3. Run dev environment locally
+### 3. (optional) Test the dev environment
 
 ```bash
 pnpm dev
 ```
+
+And open the `localhost` url to test the application
 
 Or in two terminals or with `pnpm` scripts:
 
@@ -117,11 +121,26 @@ cd frontend
 pnpm dev
 ```
 
+### 4. Compile the project code
+
+```bash
+pnpm build
+```
+
+### 5. Start the builded frontend and backend
+
+```bash
+pnpm start
+```
+
+And open the `localhost` url to view the builded application
+
+
 ---
 
 ## 🐳 Docker
 
-### 🔥 Build and run with Docker
+### 🔥 Build and run Docker
 
 ```bash
 pnpm start:docker
@@ -129,7 +148,7 @@ pnpm start:docker
 
 This will:
 
-* Start the backend and MongoDB using Docker Compose
+* Start the MongoDB database using Docker Compose
 
 ### 🛑 Stop the containers
 
@@ -143,7 +162,7 @@ pnpm stop:docker
 
 From the monorepo root:
 
-- Run all tests (vitest, jest)
+- Run all tests (vitest, jest, fakerjs)
 ```bash
 pnpm test
 ```
@@ -171,21 +190,23 @@ pnpm build
 * ✅ E2E tests using Supertest + Jest
 * ✅ Dockerized workflow
 * ✅ PNPM monorepo-compatible
-* ✅ UI/UX interface
+* ✅ UI/UX responsive interface
 * ✅ CI pipelines for testing, linting, and building automatically (husky).
 
 ---
 
 ## 📈 Axes of Improvement
 
-- Add authentication and role-based authorization to secure the app.
-- Dockerize the entire stack (frontend, backend, database) for full containerization.
-- Refactor frontend to maximize component reuse and consistency.
-- Add backend middleware for security (e.g., CORS, rate limiting, helmet).
-- Implement global input validation using DTOs and pipes.
-- Integrate Swagger to document and test the API easily.
-- Create a reusable UI component library for the frontend.
-- Include logging and monitoring tools for backend observability.
+- Add authentication and role-based authorization to secure the app
+- Dockerize the entire stack (frontend, backend, database) for full containerization
+- Refactor frontend to maximize component reuse and consistency
+- Adding features for frontend (theme, i18n)
+- Adding drag & drop task "status" in the frontend
+- Add backend middleware for security (CORS, rate limiting, helmet)
+- Implement global input validation using DTOs and pipes
+- Integrate Swagger to document and test the API easily
+- Create a reusable UI component library for the frontend
+- Include logging and monitoring tools for backend observability
 
 
 ---

@@ -15,7 +15,7 @@ a,
 	padding: 3px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1580px) {
 	body {
 		display: flex;
 		flex-direction: column;

@@ -1,19 +1,17 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
-import { createPinia, setActivePinia } from "pinia";
 import Header from "../Header.vue";
+import { faker } from "@faker-js/faker";
 
 describe("Header", () => {
 	it("renders properly", () => {
-		setActivePinia(createPinia());
+		const title = faker.lorem.sentence();
+		const description = faker.lorem.paragraph();
 
 		const wrapper = mount(Header, {
-			global: {
-				plugins: [createPinia()],
-			},
-			props: { title: "Hello Vitest", description: "test" },
+			props: { title, description },
 		});
 
-		expect(wrapper.text()).toContain("Hello Vitest");
+		expect(wrapper.text()).toContain(title);
 	});
 });

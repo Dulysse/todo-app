@@ -4,18 +4,20 @@ import * as request from "supertest";
 import { AppModule } from "@/app.module";
 import { ICreateTaskDto } from "@/tasks/dto/create-task.dto";
 import { IUpdateTaskDto } from "@/tasks/dto/update-task.dto";
+import { faker } from "@faker-js/faker";
+import { status } from "@/tasks/task.schema";
 
 describe("AppController (e2e)", () => {
 	let app: INestApplication;
 
-	const createdTask = {
-		title: "Test Task",
-		description: "E2E test task",
-		status: "todo",
+	const mockedCreationData = {
+		title: faker.lorem.sentence(),
+		description: faker.lorem.paragraph(),
+		status: faker.helpers.arrayElement(Object.values(status)),
 	} satisfies ICreateTaskDto;
 
-	const updatedTask = {
-		status: "in-progress",
+	const mockedModificationData = {
+		status: faker.helpers.arrayElement(Object.values(status)),
 	} satisfies IUpdateTaskDto;
 
 	beforeAll(async () => {
@@ -41,22 +43,22 @@ describe("AppController (e2e)", () => {
 	it("POST /tasks (should create a task)", async () => {
 		const res = await request(app.getHttpServer())
 			.post("/tasks")
-			.send(createdTask);
+			.send(mockedCreationData);
 		expect(res.status).toBe(201);
 		expect(res.body).toHaveProperty("_id");
-		expect(res.body.title).toBe(createdTask.title);
+		expect(res.body.title).toBe(mockedCreationData.title);
 	});
 
 	it("PATCH /tasks/:id (should modify a task)", async () => {
 		const createRes = await request(app.getHttpServer())
 			.post("/tasks")
-			.send(createdTask);
+			.send(mockedCreationData);
 
 		const { _id } = createRes.body;
 
 		const updateRes = await request(app.getHttpServer())
 			.patch(`/tasks/${_id}`)
-			.send(updatedTask);
+			.send(mockedModificationData);
 		expect(updateRes.status).toBe(200);
 		expect(updateRes.body).toHaveProperty("_id");
 	});
@@ -64,7 +66,7 @@ describe("AppController (e2e)", () => {
 	it("DELETE /tasks/:id (should delete a task)", async () => {
 		const createRes = await request(app.getHttpServer())
 			.post("/tasks")
-			.send(createdTask);
+			.send(mockedCreationData);
 
 		const { _id } = createRes.body;
 

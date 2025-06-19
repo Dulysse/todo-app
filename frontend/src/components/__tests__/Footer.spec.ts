@@ -1,19 +1,17 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
-import { createPinia, setActivePinia } from "pinia";
 import Footer from "../Footer.vue";
+import { faker } from "@faker-js/faker";
 
 describe("Footer", () => {
 	it("renders properly", () => {
-		setActivePinia(createPinia());
+		const author = faker.person.fullName();
+		const linkedIn = faker.internet.url();
 
 		const wrapper = mount(Footer, {
-			global: {
-				plugins: [createPinia()],
-			},
-			props: { author: "Ulysse Dupont", linkedIn: "" },
+			props: { author, linkedIn },
 		});
 
-		expect(wrapper.text()).toContain("Ulysse Dupont");
+		expect(wrapper.text()).toContain(author);
 	});
 });

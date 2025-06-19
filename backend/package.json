@@ -1,8 +1,11 @@
 {
 	"name": "backend",
 	"version": "0.0.1",
-	"description": "",
-	"author": "",
+	"description": "The backend for the todo app",
+	"author": {
+		"name": "Ulysse Dupont",
+		"email": "ulyssedupont2707@gmail.com"
+	},
 	"private": true,
 	"license": "UNLICENSED",
 	"scripts": {
@@ -21,6 +24,7 @@
 		"test:e2e": "jest --config ./test/jest-e2e.json"
 	},
 	"dependencies": {
+		"@faker-js/faker": "^9.8.0",
 		"@nestjs/common": "^11.0.1",
 		"@nestjs/config": "^4.0.2",
 		"@nestjs/core": "^11.1.3",
